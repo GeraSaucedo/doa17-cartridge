@@ -44,7 +44,7 @@ doa17LaunchEnvironment.with{
     maskPasswords()
   }
   label("docker")
-scm{
+   scm{
     git{
       remote{
         url(infrastructureRepository)
@@ -74,6 +74,7 @@ echo "[INFO] DevopsWorkshop-${ENVIRONMENT_NAME} Stack Created"
 echo "[INFO] Creating Code Build Project"
 aws codebuild create-project --cli-input-json file://${WORKSPACE}/create-project.json
 
+
 set -x'''.stripMargin()
     )
   }
@@ -102,8 +103,8 @@ doa17CreateApplication.with{
     stringParam("WEB_APP_PROFILE",'',"Web App Instance Profile from DevOps-Workshop-Networking stack")
     stringParam("WEB_APP_SG",'',"Web App SG from DevOps-Workshop-Networking stack")
     stringParam("PUBLIC_SUBNET",'',"Public Subnet from DevOps-Workshop-Networking stack")
-    stringParam("CODE_DEPLOY_ARN",'',"IAM Role ARN from DevopsWorkshop-raem-roles stack") 
-  }
+    stringParam("CODE_DEPLOY_ARN",'',"IAM Role ARN from DevopsWorkshop-raem-roles stack")
+ }
   wrappers {
     preBuildCleanup()
     maskPasswords()
@@ -148,6 +149,7 @@ doa17CreateDevelopmentGroup.with{
     stringParam("WEB_APP_SG",'',"Web App SG from DevOps-Workshop-Networking stack")
     stringParam("PUBLIC_SUBNET",'',"Public Subnet from DevOps-Workshop-Networking stack")
     stringParam("CODE_DEPLOY_ARN",'',"IAM Role ARN from DevopsWorkshop-raem-roles stack")
+
   }
   wrappers {
     preBuildCleanup()
@@ -163,6 +165,7 @@ echo "[INFO] Default region is set to $AWS_DEFAULT_REGION"
 
 echo "[INFO] Creating Code Deploy Deployment Group ${ENVIRONMENT_NAME}-DevWebApp"
 aws deploy create-deployment-group --application-name ${ENVIRONMENT_NAME}-WebApp  --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${ENVIRONMENT_NAME}-DevWebApp --ec2-tag-filters Key=Name,Value=${ENVIRONMENT_NAME}-DevWebApp,Type=KEY_AND_VALUE --service-role-arn ${CODE_DEPLOY_ARN}
+
 
 set -x'''.stripMargin()
     )
@@ -193,6 +196,7 @@ doa17CreateProductionGroup.with{
     stringParam("WEB_APP_SG",'',"Web App SG from DevOps-Workshop-Networking stack")
     stringParam("PUBLIC_SUBNET",'',"Public Subnet from DevOps-Workshop-Networking stack")
     stringParam("CODE_DEPLOY_ARN",'',"IAM Role ARN from DevopsWorkshop-raem-roles stack")
+
   }
   wrappers {
     preBuildCleanup()
